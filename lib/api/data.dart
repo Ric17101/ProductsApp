@@ -1,38 +1,20 @@
 import 'package:app/api/product.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Data {
-  List<Product>? products;
-  int? total;
-  int? skip;
-  int? limit;
+part 'data.freezed.dart';
 
-  Data({
-    this.products,
-    this.total,
-    this.skip,
-    this.limit,
-  });
+part 'data.g.dart';
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['products'] != null) {
-      products = <Product>[];
-      json['products'].forEach((v) {
-        products?.add(Product.fromJson(v));
-      });
-    }
-    total = json['total'];
-    skip = json['skip'];
-    limit = json['limit'];
-  }
+/// Entity that represents overall data from products endpoint
+@freezed
+class Data with _$Data {
+  /// Initializes a new instance of the [Data] class
+  const factory Data({
+    @Default(<Product>[]) List<Product> products,
+    int? total,
+    int? skip,
+    int? limit,
+  }) = _Data;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (products != null) {
-      data['products'] = products?.map((v) => v.toJson()).toList();
-    }
-    data['total'] = total;
-    data['skip'] = skip;
-    data['limit'] = limit;
-    return data;
-  }
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 }

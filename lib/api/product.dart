@@ -1,57 +1,27 @@
-class Product {
-  late int id;
-  String? title;
-  String? description;
-  int? price;
-  double? discountPercentage;
-  double? rating;
-  int? stock;
-  String? brand;
-  String? category;
-  String? thumbnail;
-  List<String>? images;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Product({
-    required this.id,
-    this.title,
-    this.description,
-    this.price,
-    this.discountPercentage,
-    this.rating,
-    this.stock,
-    this.brand,
-    this.category,
-    this.thumbnail,
-    this.images,
-  });
+part 'product.freezed.dart';
 
-  Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    price = json['price'];
-    discountPercentage = json['discountPercentage'];
-    rating = json['rating'];
-    stock = json['stock'];
-    brand = json['brand'];
-    category = json['category'];
-    thumbnail = json['thumbnail'];
-    images = json['images'].cast<String>();
-  }
+part 'product.g.dart';
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['description'] = description;
-    data['price'] = price;
-    data['discountPercentage'] = discountPercentage;
-    data['rating'] = rating;
-    data['stock'] = stock;
-    data['brand'] = brand;
-    data['category'] = category;
-    data['thumbnail'] = thumbnail;
-    data['images'] = images;
-    return data;
-  }
+/// Entity that represents product details from products endpoint
+/// TODO: remove unused field indicated on the requirements
+@freezed
+class Product with _$Product {
+  /// Initializes a new instance of the [Product] class
+  const factory Product({
+    int? id,
+    String? title,
+    String? description,
+    int? price,
+    double? discountPercentage,
+    double? rating,
+    int? stock,
+    String? brand,
+    String? category,
+    String? thumbnail,
+    @Default(<String>[]) List<String> images,
+  }) = _Product;
+
+  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 }
