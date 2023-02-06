@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const title = 'Mixed List';
+    const title = 'Product List';
 
     return MaterialApp(
       title: title,
