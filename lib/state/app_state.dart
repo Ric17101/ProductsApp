@@ -1,4 +1,4 @@
-import 'package:app/api/data.dart';
+import 'package:app/api/models/data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_state.freezed.dart';

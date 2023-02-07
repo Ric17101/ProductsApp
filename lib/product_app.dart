@@ -6,7 +6,7 @@ import 'package:app/ui/heading_item.dart';
 import 'package:app/ui/message_item.dart';
 
 class ProductApp extends StatelessWidget {
-  final Store store = Store(initialState: AppState.init());
+  final Store store = Store<AppState>(initialState: AppState.init());
 
   ProductApp({super.key});
 

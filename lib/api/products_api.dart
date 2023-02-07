@@ -1,4 +1,3 @@
-
 import 'package:app/api/products_handler.dart';
 import 'package:app/api/sprout_api_client.dart';
 
