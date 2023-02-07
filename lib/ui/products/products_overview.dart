@@ -3,7 +3,7 @@ import 'package:app/state/models/product_item_ui.dart';
 import 'package:app/ui/product_item.dart';
 import 'package:flutter/material.dart';
 
-class ProductsOverview extends StatelessWidget {
+class ProductsOverview extends StatefulWidget {
   const ProductsOverview({
     required this.productItemUiList,
     required this.loadMoreCallback,
@@ -14,36 +14,72 @@ class ProductsOverview extends StatelessWidget {
   final VoidCallback loadMoreCallback;
 
   @override
+  State<ProductsOverview> createState() => _ProductsOverviewState();
+}
+
+class _ProductsOverviewState extends State<ProductsOverview> {
+  final ScrollController _scrollController = ScrollController();
+
+  bool get loading => widget.productItemUiList.maybeWhen(loading: (_) => true, orElse: () => false);
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !loading) {
+        widget.loadMoreCallback();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const title = 'Product List';
 
-    final productItems = productItemUiList.when(
+    final items = widget.productItemUiList.maybeWhen(
       success: (productItems) =>
           productItems
               ?.map((productItem) => ProductItem(title: productItem.title, price: productItem.price))
               .toList() ??
           List.empty(),
-      loading: (productItems) => [
-        ...productItems
-                ?.map((productItem) => ProductItem(title: productItem.title, price: productItem.price))
-                .toList() ??
-            List.empty(),
-        const Center(child: CircularProgressIndicator(color: Colors.blue, strokeWidth: 2.0))
-      ],
-      error: (_) => [Container()],
+      loading: (productItems) =>
+          productItems
+              ?.map((productItem) => ProductItem(title: productItem.title, price: productItem.price))
+              .toList() ??
+          List.empty(),
+      orElse: () => List.empty(),
     );
 
     return Scaffold(
       appBar: AppBar(title: const Text(title)),
-      // TODO: fix ui loading indicator to show previous list
-      floatingActionButton: FloatingActionButton(
-        elevation: 0.0,
-        onPressed: loadMoreCallback,
-        child: const Icon(Icons.refresh),
-      ),
-      body: ListView.builder(
-        itemCount: productItems.length,
-        itemBuilder: (context, index) => productItems[index],
+      body: LayoutBuilder(
+        builder: (context, constraint) => Stack(
+          children: [
+            ListView.separated(
+              controller: _scrollController,
+              itemCount: items.length,
+              itemBuilder: (context, index) => items[index],
+              separatorBuilder: (_, index) => const Divider(height: 1.0),
+            ),
+            if (loading) ...[
+              Positioned(
+                left: 0,
+                bottom: 0,
+                child: SizedBox(
+                  width: constraint.maxWidth,
+                  height: 80.0,
+                  child: const Center(child: CircularProgressIndicator()),
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

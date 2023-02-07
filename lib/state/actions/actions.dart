@@ -26,7 +26,6 @@ class GetDataAction extends LoadingAction {
   Future<AppState> reduce() async {
     final data = await getIt<ApiService>().productsApi.productApi.getData();
 
-    /// TODO: apply pagination as needed
     return state.copyWith(data: data);
   }
 }
@@ -39,10 +38,9 @@ class LoadMoreDataAction extends LoadingAction {
 
   @override
   Future<AppState> reduce() async {
-    final data = await getIt<ApiService>().productsApi.productApi.getData(paginationSkip: state.paginationSkip + 10);
-
-    // (data.skip ?? 0) + 1
+    final data = await getIt<ApiService>().productsApi.productApi.getData(paginationSkip: (state.data.skip ?? 0) + 10);
     final updatedData = data.copyWith(products: [...state.data.products, ...data.products]);
+
     return state.copyWith(data: updatedData);
   }
 }

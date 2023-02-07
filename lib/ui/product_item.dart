@@ -13,6 +13,10 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 30.0,
+          vertical: 8.0,
+        ),
         title: Text(title),
         subtitle: Text('Price: $price'),
       );
