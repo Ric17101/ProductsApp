@@ -12,6 +12,6 @@ class ProductsOverviewConnector extends StatelessWidget {
   Widget build(BuildContext context) => StoreConnector<AppState, ProductsOverviewVm>(
         vm: () => ProductsOverviewVmFactory(),
         onInitialBuild: (_, store, __) => store.dispatch(GetDataAction()),
-        builder: (context, vm) => const ProductsOverview(),
+        builder: (context, vm) => ProductsOverview(productItemUiList: vm.productItemUiList),
       );
 }

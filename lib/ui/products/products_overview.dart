@@ -1,23 +1,31 @@
-import 'package:app/ui/heading_item.dart';
-import 'package:app/ui/list_item.dart';
-import 'package:app/ui/message_item.dart';
+import 'package:app/state/models/async_result.dart';
+import 'package:app/state/models/product_item_ui.dart';
+import 'package:app/ui/product_item.dart';
 import 'package:flutter/material.dart';
 
-class ProductsOverview extends StatefulWidget {
-  const ProductsOverview({super.key});
+class ProductsOverview extends StatelessWidget {
+  const ProductsOverview({
+    required this.productItemUiList,
+    super.key,
+  });
 
-  @override
-  State<ProductsOverview> createState() => _ProductsOverviewState();
-}
+  final AsyncResult<List<ProductItemUi>> productItemUiList;
 
-class _ProductsOverviewState extends State<ProductsOverview> {
   @override
   Widget build(BuildContext context) {
     const title = 'Product List';
 
-    final items = List<ListItem>.generate(
-      1000,
-      (i) => i % 6 == 0 ? HeadingItem('Heading $i') : MessageItem('Sender $i', 'Message body $i'),
+    final productItems = productItemUiList.when(
+      success: (productItems) =>
+          productItems
+              ?.map((productItem) => ProductItem(
+                    title: productItem.title,
+                    price: productItem.price,
+                  ))
+              .toList() ??
+          List.empty(),
+      loading: () => [const CircularProgressIndicator(color: Colors.blue, strokeWidth: 2.0)],
+      error: (_) => [Container()],
     );
 
     return Scaffold(
@@ -25,15 +33,8 @@ class _ProductsOverviewState extends State<ProductsOverview> {
         title: const Text(title),
       ),
       body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-
-          return ListTile(
-            title: item.buildTitle(context),
-            subtitle: item.buildSubtitle(context),
-          );
-        },
+        itemCount: productItems.length,
+        itemBuilder: (context, index) => productItems[index],
       ),
     );
   }
