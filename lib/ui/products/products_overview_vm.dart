@@ -1,3 +1,4 @@
+import 'package:app/state/actions/actions.dart';
 import 'package:app/state/app_state.dart';
 import 'package:app/state/models/async_result.dart';
 import 'package:app/state/models/product_item_ui.dart';
@@ -11,6 +12,8 @@ class ProductsOverviewVmFactory extends VmFactory<AppState, ProductsOverviewConn
       );
 
   AsyncResult<List<ProductItemUi>> get _productItemUiList {
+    if (isPageLoading(_pageKeys)) return const AsyncResult.loading();
+
     final tourStopList = state.data.products
         .map((product) => ProductItemUi(
               id: product.id,
@@ -24,6 +27,14 @@ class ProductsOverviewVmFactory extends VmFactory<AppState, ProductsOverviewConn
 
     return AsyncResult.success(tourStopList);
   }
+
+  bool isPageLoading(List<String> keys) => _isWaitingForKeys(keys);
+
+  bool _isWaitingForKeys(List<String> keys) => keys.any((k) => state.wait.isWaitingFor(k));
+
+  static const _pageKeys = [
+    GetDataAction.key,
+  ];
 }
 
 class ProductsOverviewVm extends Vm {

@@ -1,20 +1,27 @@
 import 'package:app/api/api_service.dart';
-import 'package:app/api/models/data.dart';
 import 'package:app/main.dart';
 import 'package:app/state/app_state.dart';
 import 'package:async_redux/async_redux.dart';
 
-class SaveDataAction extends ReduxAction<AppState> {
-  final Data data;
+/// Reusable loading page state for request action
+abstract class LoadingAction extends ReduxAction<AppState> {
+  LoadingAction({required this.actionKey});
 
-  SaveDataAction({required this.data});
+  final String actionKey;
 
   @override
-  AppState reduce() => state.copyWith(data: data);
+  Future<void> before() async => await dispatchAsync(WaitAction.add(actionKey));
+
+  @override
+  void after() => dispatch(WaitAction.remove(actionKey));
 }
 
 /// Get Data request action
-class GetDataAction extends ReduxAction<AppState> {
+class GetDataAction extends LoadingAction {
+  GetDataAction() : super(actionKey: key);
+
+  static const key = 'get-data-action';
+
   @override
   Future<AppState> reduce() async {
     final data = await getIt<ApiService>().productsApi.productApi.getData();

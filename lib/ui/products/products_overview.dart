@@ -18,20 +18,15 @@ class ProductsOverview extends StatelessWidget {
     final productItems = productItemUiList.when(
       success: (productItems) =>
           productItems
-              ?.map((productItem) => ProductItem(
-                    title: productItem.title,
-                    price: productItem.price,
-                  ))
+              ?.map((productItem) => ProductItem(title: productItem.title, price: productItem.price))
               .toList() ??
           List.empty(),
-      loading: () => [const CircularProgressIndicator(color: Colors.blue, strokeWidth: 2.0)],
+      loading: () => [const Center(child: CircularProgressIndicator(color: Colors.blue, strokeWidth: 2.0))],
       error: (_) => [Container()],
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(title),
-      ),
+      appBar: AppBar(title: const Text(title)),
       body: ListView.builder(
         itemCount: productItems.length,
         itemBuilder: (context, index) => productItems[index],

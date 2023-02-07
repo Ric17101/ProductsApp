@@ -1,4 +1,5 @@
 import 'package:app/api/models/data.dart';
+import 'package:async_redux/async_redux.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_state.freezed.dart';
@@ -9,6 +10,7 @@ part 'app_state.g.dart';
 class AppState with _$AppState {
   const factory AppState({
     @Default(Data()) Data data,
+    @Default(Wait.empty) @JsonKey(name: 'wait', ignore: true) Wait wait,
   }) = _AppState;
 
   factory AppState.fromJson(Map<String, dynamic> json) => _$AppStateFromJson(json);
