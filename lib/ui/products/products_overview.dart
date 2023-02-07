@@ -1,5 +1,6 @@
 import 'package:app/state/models/async_result.dart';
 import 'package:app/state/models/product_item_ui.dart';
+import 'package:app/ui/product_details/product_details_connector.dart';
 import 'package:app/ui/product_item.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,16 @@ class _ProductsOverviewState extends State<ProductsOverview> {
     final items = widget.productItemUiList.maybeWhen(
       success: (productItems) =>
           productItems
-              ?.map((productItem) => ProductItem(title: productItem.title, price: productItem.price))
+              ?.map((productItem) => ProductItem(
+                    title: productItem.title,
+                    price: productItem.price,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (BuildContext context) => ProductDetailsConnector(productItem)),
+                      );
+                    },
+                  ))
               .toList() ??
           List.empty(),
       loading: (productItems) =>

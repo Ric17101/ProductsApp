@@ -26,7 +26,7 @@ class ProductsOverviewVmFactory extends VmFactory<AppState, ProductsOverviewConn
             ))
         .toList();
 
-    if (isPageLoading(_pageKeys) && (state.data.skip ?? 0) > 0) return AsyncResult.loading(tourStopList);
+    if (isPageLoading(_pageKeys)) return AsyncResult.loading(tourStopList);
 
     return AsyncResult.success(tourStopList);
   }

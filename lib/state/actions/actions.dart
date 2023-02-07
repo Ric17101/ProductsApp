@@ -44,3 +44,19 @@ class LoadMoreDataAction extends LoadingAction {
     return state.copyWith(data: updatedData);
   }
 }
+
+/// Get product details by id request action
+class GetProductDetailsByIdAction extends LoadingAction {
+  GetProductDetailsByIdAction(this.id) : super(actionKey: key);
+
+  final int id;
+
+  static const key = 'get-product-details-by-id-action';
+
+  @override
+  Future<AppState> reduce() async {
+    final product = await getIt<ApiService>().productsApi.productApi.getById(id);
+
+    return state.copyWith(selectedProduct: product);
+  }
+}
