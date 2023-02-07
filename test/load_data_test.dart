@@ -29,4 +29,18 @@ void main() {
     expect(info.state.data.products, isNotEmpty);
     expect(info.state.data.products.length, 10);
   });
+
+  test('Load more Data request action then populate AppState data products', () async {
+    var storeTester = StoreTester<AppState>(initialState: AppState.init());
+    expect(storeTester.state.data, const Data());
+    expect(storeTester.state.data.products, isEmpty);
+
+    storeTester.dispatch(GetDataAction());
+    storeTester.dispatch(LoadMoreDataAction());
+
+    TestInfoList<AppState> info = await storeTester.waitUntilAll([GetDataAction, LoadMoreDataAction]);
+
+    expect(info.last.state.data.products, isNotEmpty);
+    expect(info.last.state.data.products.length, 20);
+  });
 }
