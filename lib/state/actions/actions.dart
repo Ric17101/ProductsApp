@@ -30,3 +30,19 @@ class GetDataAction extends LoadingAction {
     return state.copyWith(data: data);
   }
 }
+
+/// Get more products paginated request action
+class LoadMoreDataAction extends LoadingAction {
+  LoadMoreDataAction() : super(actionKey: key);
+
+  static const key = 'load-more-data-action';
+
+  @override
+  Future<AppState> reduce() async {
+    final data = await getIt<ApiService>().productsApi.productApi.getData(paginationSkip: state.paginationSkip + 10);
+
+    // (data.skip ?? 0) + 1
+    final updatedData = data.copyWith(products: [...state.data.products, ...data.products]);
+    return state.copyWith(data: updatedData);
+  }
+}

@@ -10,10 +10,10 @@ class DataProductsApi {
   /// Get all Products
   /// HTTP Code 200: List of Product
   /// https://dummyjson.com/products?limit=10&skip={PAGINATION_SKIP}&select=title,price,thumbnail,stock,discountPercentage
-  Future<Data> getData() async {
+  Future<Data> getData({int paginationSkip = 0}) async {
     final queryParams = <String, dynamic>{};
     queryParams['limit'] = '10';
-    queryParams['skip'] = '0';
+    queryParams['skip'] = '$paginationSkip';
     queryParams['select'] = 'title,price,thumbnail,stock,discountPercentage';
 
     final baseUri = Uri.parse(apiClient.baseUrl);

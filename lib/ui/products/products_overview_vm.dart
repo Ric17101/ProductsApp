@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app/state/actions/actions.dart';
 import 'package:app/state/app_state.dart';
 import 'package:app/state/models/async_result.dart';
@@ -9,11 +11,10 @@ class ProductsOverviewVmFactory extends VmFactory<AppState, ProductsOverviewConn
   @override
   Vm fromStore() => ProductsOverviewVm(
         productItemUiList: _productItemUiList,
+        loadMoreCallback: _loadMoreCallback,
       );
 
   AsyncResult<List<ProductItemUi>> get _productItemUiList {
-    if (isPageLoading(_pageKeys)) return const AsyncResult.loading();
-
     final tourStopList = state.data.products
         .map((product) => ProductItemUi(
               id: product.id,
@@ -25,8 +26,12 @@ class ProductsOverviewVmFactory extends VmFactory<AppState, ProductsOverviewConn
             ))
         .toList();
 
+    if (isPageLoading(_pageKeys) && (state.data.skip ?? 0) > 0) return AsyncResult.loading(tourStopList);
+
     return AsyncResult.success(tourStopList);
   }
+
+  void _loadMoreCallback() => dispatch(LoadMoreDataAction());
 
   bool isPageLoading(List<String> keys) => _isWaitingForKeys(keys);
 
@@ -34,11 +39,16 @@ class ProductsOverviewVmFactory extends VmFactory<AppState, ProductsOverviewConn
 
   static const _pageKeys = [
     GetDataAction.key,
+    LoadMoreDataAction.key,
   ];
 }
 
 class ProductsOverviewVm extends Vm {
-  ProductsOverviewVm({required this.productItemUiList}) : super(equals: [productItemUiList]);
+  ProductsOverviewVm({
+    required this.productItemUiList,
+    required this.loadMoreCallback,
+  }) : super(equals: [productItemUiList]);
 
   final AsyncResult<List<ProductItemUi>> productItemUiList;
+  final VoidCallback loadMoreCallback;
 }
