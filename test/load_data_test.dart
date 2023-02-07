@@ -12,7 +12,6 @@ void main() {
   getIt.registerLazySingleton<ApiService>(() => ApiService());
 
   test('Initial state.', () {
-    //
     var storeTester = StoreTester<AppState>(initialState: AppState.init());
 
     expect(storeTester.state.data, const Data());
