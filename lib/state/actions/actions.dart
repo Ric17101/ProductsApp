@@ -17,9 +17,9 @@ class SaveDataAction extends ReduxAction<AppState> {
 class GetDataAction extends ReduxAction<AppState> {
   @override
   Future<AppState> reduce() async {
-    final product = await getIt<ApiService>().productsApi.productApi.getData();
+    final data = await getIt<ApiService>().productsApi.productApi.getData();
 
     /// TODO: apply pagination as needed
-    return state;
+    return state.copyWith(data: data);
   }
 }
