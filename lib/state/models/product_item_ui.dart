@@ -11,6 +11,9 @@ class ProductItemUi with _$ProductItemUi {
     @Default('') String thumbnail,
     @Default(0) int stock,
     @Default(0.0) double discountPercentage,
+    @Default('') String category,
+    @Default('') String brand,
+    @Default('') String description,
   }) = _ProductItemUi;
 
   const ProductItemUi._();

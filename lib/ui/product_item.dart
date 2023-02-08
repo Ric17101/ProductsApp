@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 /// A ListItem that contains data to display a message.
 class ProductItem extends StatelessWidget {
   final String title;
-  final int price;
+  final String details;
   final VoidCallback? onTap;
 
   const ProductItem({
     required this.title,
-    required this.price,
+    required this.details,
     this.onTap,
     super.key,
   });
@@ -21,6 +21,10 @@ class ProductItem extends StatelessWidget {
           vertical: 8.0,
         ),
         title: Text(title),
-        subtitle: Text('Price: $price'),
+        subtitle: Text(
+          details,
+          overflow: TextOverflow.visible,
+          softWrap: true,
+        ),
       );
 }

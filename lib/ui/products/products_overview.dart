@@ -48,7 +48,7 @@ class _ProductsOverviewState extends State<ProductsOverview> {
           productItems
               ?.map((productItem) => ProductItem(
                     title: productItem.title,
-                    price: productItem.price,
+                    details: '${productItem.price}',
                     onTap: () {
                       Navigator.push(
                         context,
@@ -60,7 +60,7 @@ class _ProductsOverviewState extends State<ProductsOverview> {
           List.empty(),
       loading: (productItems) =>
           productItems
-              ?.map((productItem) => ProductItem(title: productItem.title, price: productItem.price))
+              ?.map((productItem) => ProductItem(title: productItem.title, details: '${productItem.price}'))
               .toList() ??
           List.empty(),
       orElse: () => List.empty(),

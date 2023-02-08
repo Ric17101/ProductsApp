@@ -1,6 +1,7 @@
 import 'package:app/state/models/async_result.dart';
 import 'package:app/state/models/product_item_ui.dart';
 import 'package:app/ui/product_item.dart';
+import 'package:app/extensions/product_ext.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetails extends StatelessWidget {
@@ -18,8 +19,8 @@ class ProductDetails extends StatelessWidget {
     final productItems = selectedProductItemUi.when(
       success: (productItem) => [
         ProductItem(
-          title: productItem?.title ?? '',
-          price: productItem?.price ?? 0,
+          title: '${productItem?.title ?? ' '} (${productItem?.category ?? ' '})',
+          details: productItem?.details ?? '',
         )
       ],
       loading: (_) => [const Center(child: CircularProgressIndicator(color: Colors.blue, strokeWidth: 2.0))],

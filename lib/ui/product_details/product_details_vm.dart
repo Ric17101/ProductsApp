@@ -23,6 +23,9 @@ class ProductDetailsVmFactory extends VmFactory<AppState, ProductDetailsConnecto
       thumbnail: product.thumbnail ?? '',
       stock: product.stock ?? 0,
       discountPercentage: product.discountPercentage ?? 0.0,
+      category: product.category ?? '',
+      brand: product.brand ?? '',
+      description: product.description ?? '',
     ));
   }
 
