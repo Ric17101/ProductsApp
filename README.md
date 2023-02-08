@@ -20,3 +20,5 @@ needed to meet the requirements:
  - https://dummyjson.com/products?limit=10&skip={PAGINATION_SKIP}&select=title,price,thumbnail,sto
 ck,discountPercentage
  - https://dummyjson.com/products/{PRODUCT_ID}
+<img width="755" alt="preview1" src="https://user-images.githubusercontent.com/10458685/217403802-f271cc19-de4b-441e-8014-9ecaff7529a4.png">
+<img width="767" alt="preview2" src="https://user-images.githubusercontent.com/10458685/217403824-7816eb69-0a33-4615-ac94-e3a8bc83878c.png">
