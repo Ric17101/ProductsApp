@@ -5,7 +5,6 @@ part 'product.freezed.dart';
 part 'product.g.dart';
 
 /// Entity that represents product details from products endpoint
-/// TODO: remove unused field indicated on the requirements
 @freezed
 class Product with _$Product {
   /// Initializes a new instance of the [Product] class
