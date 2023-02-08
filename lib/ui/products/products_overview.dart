@@ -1,3 +1,4 @@
+import 'package:app/extensions/product_ext.dart';
 import 'package:app/state/models/async_result.dart';
 import 'package:app/state/models/product_item_ui.dart';
 import 'package:app/ui/product_details/product_details_connector.dart';
@@ -48,7 +49,8 @@ class _ProductsOverviewState extends State<ProductsOverview> {
           productItems
               ?.map((productItem) => ProductItem(
                     title: productItem.title,
-                    details: '${productItem.price}',
+                    details: productItem.priceDetails,
+                    thumbnail: productItem.thumbnail,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -74,6 +76,8 @@ class _ProductsOverviewState extends State<ProductsOverview> {
             ListView.separated(
               controller: _scrollController,
               itemCount: items.length,
+              // padding: const EdgeInsets.only(bottom: 100.0),
+              physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (context, index) => items[index],
               separatorBuilder: (_, index) => const Divider(height: 1.0),
             ),

@@ -21,6 +21,7 @@ class ProductDetails extends StatelessWidget {
         ProductItem(
           title: '${productItem?.title ?? ' '} (${productItem?.category ?? ' '})',
           details: productItem?.details ?? '',
+          thumbnail: productItem?.thumbnail,
         )
       ],
       loading: (_) => [const Center(child: CircularProgressIndicator(color: Colors.blue, strokeWidth: 2.0))],
