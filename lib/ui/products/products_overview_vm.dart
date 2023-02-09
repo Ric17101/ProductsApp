@@ -15,7 +15,7 @@ class ProductsOverviewVmFactory extends VmFactory<AppState, ProductsOverviewConn
       );
 
   AsyncResult<List<ProductItemUi>> get _productItemUiList {
-    final tourStopList = state.data.products
+    final productList = state.data.products
         .map((product) => ProductItemUi(
               id: product.id,
               title: product.title ?? '',
@@ -26,9 +26,9 @@ class ProductsOverviewVmFactory extends VmFactory<AppState, ProductsOverviewConn
             ))
         .toList();
 
-    if (isPageLoading(_pageKeys)) return AsyncResult.loading(tourStopList);
+    if (isPageLoading(_pageKeys)) return AsyncResult.loading(productList);
 
-    return AsyncResult.success(tourStopList);
+    return AsyncResult.success(productList);
   }
 
   void _loadMoreCallback() => dispatch(LoadMoreDataAction());
