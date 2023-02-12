@@ -11,6 +11,12 @@ class ProductsOverviewConnector extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ProductsOverviewVm>(
         vm: () => ProductsOverviewVmFactory(),
+        // TODO: can be used when no need to access state
+        // E.g. run the dispatch action
+        // converter: (store) => ProductsOverviewVm(
+        //   loadMoreCallback: () {},
+        //   productItemUiList: const AsyncResult.success([]),
+        // ),
         onInitialBuild: (_, store, __) => store.dispatch(GetDataAction()),
         builder: (context, vm) => ProductsOverview(
           productItemUiList: vm.productItemUiList,
